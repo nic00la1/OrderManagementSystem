@@ -31,17 +31,14 @@
 
             <Button Text="Dodaj produkt"
                 Clicked="AddProduct_Clicked"/>
-
-            <Label x:Name="walidacjaEntries"
-                TextColor="Red"/>
             <!--#endregion-->
         
-        <!--#region Wybierz Kategorie-->
+        <!--#region Sortuj Kategorie-->
             <Label Text="Wybierz kategorię" FontSize="20"
                Margin="0, 20, 0,10 "/>
 
-            <Picker x:Name="WyswietlKategoriaPicker" Title="Sortuj Kategorie"
-                    SelectedIndexChanged="KategoriaPicker_SelectedIndexChanged" SelectedIndex="0">
+            <Picker x:Name="WyswietlKategoriaPicker" Title="Sortuj Kategorie" SelectedIndex="0"
+                    SelectedIndexChanged="KategoriaPicker_SelectedIndexChanged" >
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}" >
                         <x:String>All</x:String>
@@ -110,8 +107,11 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Frame BackgroundColor="Gray" x:Name="ifNoProductInCategory_Frame">
+            <Frame BackgroundColor="#ffdfd4" x:Name="ifNoProductInCategory_Frame" 
+                       HorizontalOptions="Center"
+                   Margin="20">
                 <Label x:Name="ifNoProductInCategory_Label"
+                       Text="Proszę wybrać kategorię!"
                        FontSize="25"
                        TextColor="Red"/>
             </Frame>

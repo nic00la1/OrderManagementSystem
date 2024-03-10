@@ -53,6 +53,12 @@ namespace OrderManagementSystem
 
             nextProductId++; // Zwiększ licznik po dodaniu produktu
 
+            if (category != null && category != "All" && products.Any(p => p.Category == category))
+            {
+                ifNoProductInCategory_Frame.IsVisible = false;
+                ifNoProductInCategory_Label.IsVisible = false;
+            }
+
             DisplayProducts();
         }
 
@@ -155,13 +161,10 @@ namespace OrderManagementSystem
         private void KategoriaPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             string? category = WyswietlKategoriaPicker.SelectedItem.ToString();
+
             if (category == "All")
             {
                 DisplayProducts();
-
-                // Ukryj ramkę i etykietę z komunikatem
-                ifNoProductInCategory_Frame.IsVisible = false;
-                ifNoProductInCategory_Label.IsVisible = false;
             }
             else
             {
