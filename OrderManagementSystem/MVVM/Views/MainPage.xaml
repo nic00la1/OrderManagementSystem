@@ -35,17 +35,35 @@
         
         <!--#region List of Products-->
 
-        <Label Text="Lista produktów" FontSize="20"/>
+        <!--#region Column Headers-->
+        <Label Text="Lista produktów" FontSize="20"
+               Margin="0, 20, 0,10 "/>
 
-            <CollectionView x:Name="collectionView" ItemsLayout="VerticalList" SelectionMode="Single"
+            <Grid ColumnDefinitions="*,*,*,*" Padding="5" Margin="15, 0">
+                <Label Text="ID" FontSize="16" Grid.Column="0"
+                       FontAttributes="Bold"/>
+                
+                <Label Text="Nazwa" FontSize="16" Grid.Column="1"
+                       FontAttributes="Bold"/>
+                
+                <Label Text="Cena" FontSize="16" Grid.Column="2"
+                       FontAttributes="Bold"/>
+                
+                <Label Text="Kategoria" FontSize="16" Grid.Column="3"
+                       FontAttributes="Bold"/>
+            </Grid>
+        <!--#endregion-->
+
+            <CollectionView ItemsLayout="VerticalList" SelectionMode="Single"
                         ItemsSource="{Binding ProductsList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame Margin="10">
-                            <Grid ColumnDefinitions="*,*,*" Padding="5">
-                                <Label Text="{Binding Name}" FontSize="16" Grid.Column="0"/>
-                                <Label Text="{Binding Price}" FontSize="16" Grid.Column="1"/>
-                                <Label Text="{Binding Category}" FontSize="16" Grid.Column="2"/>
+                            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*" Padding="5">
+                                <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
+                                <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
+                                <Label Text="{Binding Price}" FontSize="16" Grid.Column="2"/>
+                                <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
                             </Grid>
                         </Frame>
                     </DataTemplate>

@@ -18,11 +18,12 @@ namespace OrderManagementSystem
 
         private void AddProduct_Clicked(object sender, EventArgs e)
         {
+            int id = products.Count + 1;
             string name = ProductNameEntry.Text;
             decimal price = Convert.ToDecimal(ProductPriceEntry.Text);
             string? category = KategoriaPicker.SelectedItem.ToString();
 
-            Product newProduct = new Product(name, price, category);
+            Product newProduct = new Product(id, name, price, category);
             products.Add(newProduct);
 
             DisplayProducts();
