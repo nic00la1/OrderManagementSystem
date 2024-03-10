@@ -32,44 +32,28 @@
         <Button Text="Dodaj produkt"
                 Clicked="AddProduct_Clicked"/>
         <!--#endregion-->
+        
+        <!--#region List of Products-->
 
         <Label Text="Lista produktów" FontSize="20"/>
 
-        <CollectionView x:Name="collectionView" ItemsLayout="VerticalList" SelectionMode="Single"
+            <CollectionView x:Name="collectionView" ItemsLayout="VerticalList" SelectionMode="Single"
                         ItemsSource="{Binding ProductsList}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame Margin="10">
-                        <Grid ColumnDefinitions="*,*,*" Padding="5">
-                            <Label Text="{Binding Name}" FontSize="16" Grid.Column="0"/>
-                            <Label Text="{Binding Price}" FontSize="16" Grid.Column="1"/>
-                            <Label Text="{Binding Category}" FontSize="16" Grid.Column="2"/>
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-
-
-
-        <!-- <ListView ItemsSource="{Binding ProductsList}">
-             Define the appearance of each item in the ListView 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout>
-                            <Label Text="{Binding Name}" FontSize="16" />
-                            <Label Text="{Binding Price}" FontSize="16" />
-                            <Label Text="{Binding Category}" FontSize="16" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView> -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="10">
+                            <Grid ColumnDefinitions="*,*,*" Padding="5">
+                                <Label Text="{Binding Name}" FontSize="16" Grid.Column="0"/>
+                                <Label Text="{Binding Price}" FontSize="16" Grid.Column="1"/>
+                                <Label Text="{Binding Category}" FontSize="16" Grid.Column="2"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         
-
-    </VerticalStackLayout>
+        <!--#endregion-->
+        </VerticalStackLayout>
     </ScrollView>
 
 </ContentPage>

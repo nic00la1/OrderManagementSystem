@@ -30,11 +30,16 @@ namespace OrderManagementSystem
 
         private void DisplayProducts()
         {
+            ProductsList.Clear();
             foreach (var product in products)
             {
                 ProductsList.Add(product);
             }
+
+
+
         }
+
     }
 
 }
