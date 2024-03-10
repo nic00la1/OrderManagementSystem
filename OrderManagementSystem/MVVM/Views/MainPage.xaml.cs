@@ -15,10 +15,11 @@ namespace OrderManagementSystem
             BindingContext = this;
         }
 
+        private static int nextProductId = 1;
 
         private void AddProduct_Clicked(object sender, EventArgs e)
         {
-            int id = products.Count + 1; // Increment the count to ensure uniqueness
+            int id = nextProductId; // Use the next product ID
             string name = ProductNameEntry.Text;
             decimal price = Convert.ToDecimal(ProductPriceEntry.Text);
             string? category = KategoriaPicker.SelectedItem.ToString();
@@ -26,16 +27,31 @@ namespace OrderManagementSystem
             Product newProduct = new Product(id, name, price, category);
             products.Add(newProduct);
 
+            nextProductId++; // Increment the counter after adding the product
+
+
             DisplayProducts();
         }
 
         private void DisplayProducts()
         {
+            // Create a new list of products with updated IDs
+            List<Product> updatedProducts = new List<Product>();
+            for (int i = 0; i < products.Count; i++)
+            {
+                Product product = products[i];
+                updatedProducts.Add(new Product(i + 1, product.Name, product.Price, product.Category));
+            }
+
+            // Clear the ProductsList and add the updated products
             ProductsList.Clear();
-            foreach (var product in products)
+            foreach (var product in updatedProducts)
             {
                 ProductsList.Add(product);
             }
+
+            // Replace the old products list with the updated one
+            products = updatedProducts;
         }
 
         private async void EditButton_Clicked(object sender, EventArgs e)
@@ -75,7 +91,13 @@ namespace OrderManagementSystem
 
         private void DeleteButton_Clicked(object sender, EventArgs e)
         {
+            // Get the selected product
+            Product selectedProduct = (Product)((Button)sender).BindingContext;
 
+            // Remove the selected product from the products list
+            products.Remove(selectedProduct);
+
+            DisplayProducts();
         }
     }
 
