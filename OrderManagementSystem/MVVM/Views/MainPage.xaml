@@ -30,7 +30,14 @@
 
         <Label Text="Lista produktów" FontSize="20"/>
         <ScrollView>
-            <StackLayout x:Name="ProductsStackLayout" />
+            <StackLayout x:Name="ProductsStackLayout">
+                <!-- Nagłówki tabeli -->
+                <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Text="Nazwa" FontSize="16" HorizontalOptions="FillAndExpand" />
+                    <Label Text="Cena" FontSize="16" HorizontalOptions="FillAndExpand" />
+                    <Label Text="Kategoria" FontSize="16" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+            </StackLayout>
         </ScrollView>
 
 
