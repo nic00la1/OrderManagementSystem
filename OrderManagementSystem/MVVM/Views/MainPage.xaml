@@ -31,6 +31,9 @@
 
             <Button Text="Dodaj produkt"
                 Clicked="AddProduct_Clicked"/>
+
+            <Label x:Name="walidacjaEntries"
+                TextColor="Red"/>
             <!--#endregion-->
         
         <!--#region Wybierz Kategorie-->

@@ -19,23 +19,46 @@ namespace OrderManagementSystem
 
         private void AddProduct_Clicked(object sender, EventArgs e)
         {
-            int id = nextProductId; // Use the next product ID
+            int id = nextProductId; // Użyj kolejnego ID produktu
             string name = ProductNameEntry.Text;
-            decimal price = Convert.ToDecimal(ProductPriceEntry.Text);
-            string? category = KategoriaPicker.SelectedItem.ToString();
+            decimal price;
+            bool isPriceValid = Decimal.TryParse(ProductPriceEntry.Text, out price);
+            string? category = KategoriaPicker.SelectedItem?.ToString();
+
+            string errorMessage = "";
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                errorMessage += "Nazwa produktu jest wymagana.\n";
+            }
+
+            if (!isPriceValid || price < 0)
+            {
+                errorMessage += "Nieprawidłowa cena. Proszę wprowadzić dodatnią liczbę.\n";
+            }
+
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                errorMessage += "Kategoria jest wymagana.\n";
+            }
+
+            if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                DisplayAlert("Błąd", errorMessage, "OK");
+                return;
+            }
 
             Product newProduct = new Product(id, name, price, category);
             products.Add(newProduct);
 
-            nextProductId++; // Increment the counter after adding the product
-
+            nextProductId++; // Zwiększ licznik po dodaniu produktu
 
             DisplayProducts();
         }
 
         private void DisplayProducts()
         {
-            // Create a new list of products with updated IDs
+            // Utwórz nową listę produktów z zaktualizowanymi ID
             List<Product> updatedProducts = new List<Product>();
             for (int i = 0; i < products.Count; i++)
             {
@@ -43,46 +66,46 @@ namespace OrderManagementSystem
                 updatedProducts.Add(new Product(i + 1, product.Name, product.Price, product.Category));
             }
 
-            // Clear the ProductsList and add the updated products
+            // Wyczyść ProductsList i dodaj zaktualizowane produkty
             ProductsList.Clear();
             foreach (var product in updatedProducts)
             {
                 ProductsList.Add(product);
             }
 
-            // Replace the old products list with the updated one
+            // Zamień starą listę produktów na zaktualizowaną
             products = updatedProducts;
         }
 
         private async void EditButton_Clicked(object sender, EventArgs e)
         {
-            // Get the selected product
+            // Pobierz wybrany produkt
             Product selectedProduct = (Product)((Button)sender).BindingContext;
 
-            // Show an input dialog to edit the product details
-            int id = selectedProduct.Id; // Keep the same id as the original product
-            string name = await DisplayPromptAsync("Change Name", "Enter the new name", initialValue: selectedProduct.Name);
-            decimal price = Convert.ToDecimal(await DisplayPromptAsync("Change Price", "Enter the new price", initialValue: selectedProduct.Price.ToString()));
+            // Wyświetl okno dialogowe do edycji szczegółów produktu
+            int id = selectedProduct.Id; // Zachowaj to samo ID jak w oryginalnym produkcie
+            string name = await DisplayPromptAsync("Zmień nazwę", "Wprowadź nową nazwę", initialValue: selectedProduct.Name);
+            decimal price = Convert.ToDecimal(await DisplayPromptAsync("Zmień cenę", "Wprowadź nową cenę", initialValue: selectedProduct.Price.ToString()));
 
-            // Get the list of categories from the XAML file
+            // Pobierz listę kategorii z pliku XAML
             List<string> categories = new List<string>();
             foreach (var item in KategoriaPicker.Items)
             {
                 categories.Add(item.ToString());
             }
 
-            // Show a picker dialog to select the new category
-            string category = await DisplayActionSheet("Change Category", "Cancel", null, categories.ToArray());
+            // Wyświetl okno dialogowe do wyboru nowej kategorii
+            string category = await DisplayActionSheet("Zmień kategorię", "Anuluj", null, categories.ToArray());
 
-            // Update the product details
+            // Zaktualizuj szczegóły produktu
             selectedProduct.Name = name;
             selectedProduct.Price = price;
             selectedProduct.Category = category;
 
-            // Create a new product object
+            // Utwórz nowy obiekt produktu
             Product newProduct = new Product(id, name, price, category);
 
-            // Replace the edited product in the products list
+            // Zamień edytowany produkt na nowy w liście produktów
             int index = products.IndexOf(selectedProduct);
             products[index] = newProduct;
 
@@ -91,10 +114,10 @@ namespace OrderManagementSystem
 
         private void DeleteButton_Clicked(object sender, EventArgs e)
         {
-            // Get the selected product
+            // Pobierz wybrany produkt
             Product selectedProduct = (Product)((Button)sender).BindingContext;
 
-            // Remove the selected product from the products list
+            // Usuń wybrany produkt z listy produktów
             products.Remove(selectedProduct);
 
             DisplayProducts();
@@ -102,23 +125,23 @@ namespace OrderManagementSystem
 
         private void DisplayProductsByCategory(string category)
         {
-            // Create a new list of products filtered by category
+            // Utwórz nową listę produktów filtrowaną według kategorii
             List<Product> filteredProducts = products.Where(p => p.Category == category).ToList();
 
-            // Clear the ProductsList
+            // Wyczyść ProductsList
             ProductsList.Clear();
 
             if (filteredProducts.Count == 0)
             {
-                // If there are no products in the selected category, display a message
+                // Jeśli nie ma produktów w wybranej kategorii, wyświetl komunikat
                 ifNoProductInCategory_Label.IsVisible = true;
-                ifNoProductInCategory_Label.Text = "Brak produktow w kategorii: " + category + "!";
+                ifNoProductInCategory_Label.Text = "Brak produktów w kategorii: " + category + "!";
 
                 ifNoProductInCategory_Frame.IsVisible = true;
             }
             else
             {
-                // If there are products in the selected category, add them to the ProductsList
+                // Jeśli są produkty w wybranej kategorii, dodaj je do ProductsList
                 foreach (var product in filteredProducts)
                 {
                     ProductsList.Add(product);
@@ -136,7 +159,7 @@ namespace OrderManagementSystem
             {
                 DisplayProducts();
 
-                // Hide the message frame and label
+                // Ukryj ramkę i etykietę z komunikatem
                 ifNoProductInCategory_Frame.IsVisible = false;
                 ifNoProductInCategory_Label.IsVisible = false;
             }
