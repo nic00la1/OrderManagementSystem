@@ -59,11 +59,20 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame Margin="10">
-                            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*" Padding="5">
-                                <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
-                                <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
-                                <Label Text="{Binding Price}" FontSize="16" Grid.Column="2"/>
-                                <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
+                            <Grid>
+                                <BoxView BackgroundColor="Yellow" CornerRadius="10" Margin="2">
+                                    <BoxView.Shadow>
+                                        <Shadow Brush="Blue"/>
+                                    </BoxView.Shadow>
+                                </BoxView>
+                                <Frame>
+                                    <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*" Padding="5">
+                                        <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
+                                        <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
+                                        <Label Text="{Binding Price}" FontSize="16" Grid.Column="2"/>
+                                        <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
+                                    </Grid>
+                                </Frame>
                             </Grid>
                         </Frame>
                     </DataTemplate>
