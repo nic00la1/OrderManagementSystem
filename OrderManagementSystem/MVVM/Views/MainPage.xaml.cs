@@ -162,6 +162,10 @@ namespace OrderManagementSystem
         {
             string? category = WyswietlKategoriaPicker.SelectedItem.ToString();
 
+            // Reset the visibility of the message
+            ifNoProductInCategory_Frame.IsVisible = false;
+            ifNoProductInCategory_Label.IsVisible = false;
+
             if (category == "All")
             {
                 DisplayProducts();

@@ -55,36 +55,43 @@
         <!--#region List of Products-->
 
         <!--#region Column Headers-->
-        <Label Text="Lista produktów" FontSize="20"
-               Margin="0, 20, 0,10 "/>
+            <Label Text="Lista produktów" FontSize="26"
+               Margin="0, 20 " HorizontalOptions="Center">
+                <Label.Shadow>
+                    <Shadow Brush="Yellow"/>
+                </Label.Shadow>
+            </Label>
 
-            <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
-                <Label Text="ID" FontSize="16" Grid.Column="0"
-                       FontAttributes="Bold"/>
+            <Frame BackgroundColor="Transparent" BorderColor="Yellow">
+                <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
+                    <Label Text="ID" FontSize="16" Grid.Column="0"
+                           FontAttributes="Bold"/>
                 
-                <Label Text="Nazwa" FontSize="16" Grid.Column="1"
-                       FontAttributes="Bold"/>
+                    <Label Text="Nazwa" FontSize="16" Grid.Column="1"
+                           FontAttributes="Bold"/>
                 
-                <Label Text="Cena" FontSize="16" Grid.Column="2"
-                       FontAttributes="Bold"/>
+                    <Label Text="Cena" FontSize="16" Grid.Column="2"
+                           FontAttributes="Bold"/>
                 
-                <Label Text="Kategoria" FontSize="16" Grid.Column="3"
-                       FontAttributes="Bold"/>
+                    <Label Text="Kategoria" FontSize="16" Grid.Column="3"
+                           FontAttributes="Bold"/>
 
-                <Label Text="Edytuj" FontSize="16" Grid.Column="4"
-                       FontAttributes="Bold"/>
+                    <Label Text="Edytuj" FontSize="16" Grid.Column="4"
+                           FontAttributes="Bold"/>
 
                 <Label Text="Usuń" FontSize="16" Grid.Column="5" 
-                       FontAttributes="Bold"/>
-            </Grid>
-        <!--#endregion-->
+                           FontAttributes="Bold"/>
+                </Grid>
+
+            </Frame>
+            <!--#endregion-->
 
             <CollectionView ItemsLayout="VerticalList" SelectionMode="Single"
                 ItemsSource="{Binding ProductsList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout>
-                            <Frame Margin="10">
+                            <Frame Margin="0,-5">
                                 <Grid ColumnDefinitions="*,*,*,*,*,*" RowDefinitions="*" Padding="5">
                                     <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
                                     <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
@@ -93,14 +100,14 @@
 
                                     <Button Text="Edytuj" FontSize="16" Grid.Column="4"
                                             BackgroundColor="Blue" TextColor="White"
-                                            Clicked="EditButton_Clicked"/> 
+                                            Clicked="EditButton_Clicked"/>
 
                                     <Button Text="Usuń" FontSize="16" Grid.Column="5"
                                             BackgroundColor="Red" 
                                             Clicked="DeleteButton_Clicked"/>
 
                                 </Grid>
-                            </Frame> 
+                            </Frame>
                         </StackLayout>
 
                     </DataTemplate>
