@@ -99,6 +99,32 @@ namespace OrderManagementSystem
 
             DisplayProducts();
         }
+
+        private void DisplayProductsByCategory(string category)
+        {
+            // Create a new list of products filtered by category
+            List<Product> filteredProducts = products.Where(p => p.Category == category).ToList();
+
+            // Clear the ProductsList and add the filtered products
+            ProductsList.Clear();
+            foreach (var product in filteredProducts)
+            {
+                ProductsList.Add(product);
+            }
+        }
+
+        private void KategoriaPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string? category = WyswietlKategoriaPicker.SelectedItem.ToString();
+            if (category == "All")
+            {
+                DisplayProducts();
+            }
+            else
+            {
+                DisplayProductsByCategory(category);
+            }
+        }
     }
 
 }

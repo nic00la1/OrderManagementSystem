@@ -29,9 +29,28 @@
             </Picker.ItemsSource>
         </Picker>
 
-        <Button Text="Dodaj produkt"
+            <Button Text="Dodaj produkt"
                 Clicked="AddProduct_Clicked"/>
-        <!--#endregion-->
+            <!--#endregion-->
+        
+        <!--#region Wybierz Kategorie-->
+            <Label Text="Wybierz kategorię" FontSize="20"
+               Margin="0, 20, 0,10 "/>
+
+            <Picker x:Name="WyswietlKategoriaPicker" Title="Select a category"
+                    SelectedIndexChanged="KategoriaPicker_SelectedIndexChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>All</x:String>
+                        <x:String>Odzież</x:String>
+                        <x:String>Spożywcze</x:String>
+                        <x:String>Elektronika</x:String>
+                        <!-- Add more categories as needed -->
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <!--#endregion-->
         
         <!--#region List of Products-->
 
