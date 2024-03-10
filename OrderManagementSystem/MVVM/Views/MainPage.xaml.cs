@@ -1,15 +1,20 @@
 ﻿using OrderManagementSystem.MVVM.Models;
+using System.Collections.ObjectModel;
 
 namespace OrderManagementSystem
 {
     public partial class MainPage : ContentPage
     {
         private List<Product> products = new List<Product>();
+        public ObservableCollection<Product> ProductsList { get; set; }
 
         public MainPage()
         {
             InitializeComponent();
+            ProductsList = new ObservableCollection<Product>();
+            BindingContext = this;
         }
+
 
         private void AddProduct_Clicked(object sender, EventArgs e)
         {
@@ -25,17 +30,9 @@ namespace OrderManagementSystem
 
         private void DisplayProducts()
         {
-            ProductsStackLayout.Children.Clear();
-
             foreach (var product in products)
             {
-                var label = new Label
-                {
-                    Text = $"Nazwa: {product.Name}, Cena: {product.Price}, Kategoria: {product.Category}",
-                    FontSize = 16
-                };
-
-                ProductsStackLayout.Children.Add(label);
+                ProductsList.Add(product);
             }
         }
     }
