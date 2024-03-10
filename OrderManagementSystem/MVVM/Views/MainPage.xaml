@@ -62,7 +62,9 @@
                 </Label.Shadow>
             </Label>
 
-            <Frame BackgroundColor="Transparent" BorderColor="Yellow">
+
+            <Border BackgroundColor="Transparent" Stroke="Yellow" Opacity="0.8" StrokeThickness="3"
+                    StrokeShape="RoundRectangle 20,20,0,0">
                 <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
                     <Label Text="ID" FontSize="16" Grid.Column="0"
                            FontAttributes="Bold"/>
@@ -82,8 +84,10 @@
                 <Label Text="Usuń" FontSize="16" Grid.Column="5" 
                            FontAttributes="Bold"/>
                 </Grid>
-
-            </Frame>
+                <Border.Shadow>
+                    <Shadow Brush="Yellow"/>
+                </Border.Shadow>
+            </Border>
             <!--#endregion-->
 
             <CollectionView ItemsLayout="VerticalList" SelectionMode="Single"
