@@ -105,11 +105,27 @@ namespace OrderManagementSystem
             // Create a new list of products filtered by category
             List<Product> filteredProducts = products.Where(p => p.Category == category).ToList();
 
-            // Clear the ProductsList and add the filtered products
+            // Clear the ProductsList
             ProductsList.Clear();
-            foreach (var product in filteredProducts)
+
+            if (filteredProducts.Count == 0)
             {
-                ProductsList.Add(product);
+                // If there are no products in the selected category, display a message
+                ifNoProductInCategory_Label.IsVisible = true;
+                ifNoProductInCategory_Label.Text = "Brak produktow w kategorii: " + category + "!";
+
+                ifNoProductInCategory_Frame.IsVisible = true;
+            }
+            else
+            {
+                // If there are products in the selected category, add them to the ProductsList
+                foreach (var product in filteredProducts)
+                {
+                    ProductsList.Add(product);
+
+                    ifNoProductInCategory_Frame.IsVisible = false;
+                    ifNoProductInCategory_Label.IsVisible = false;
+                }
             }
         }
 
@@ -119,6 +135,10 @@ namespace OrderManagementSystem
             if (category == "All")
             {
                 DisplayProducts();
+
+                // Hide the message frame and label
+                ifNoProductInCategory_Frame.IsVisible = false;
+                ifNoProductInCategory_Label.IsVisible = false;
             }
             else
             {
