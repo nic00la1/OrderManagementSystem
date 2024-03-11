@@ -2,7 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OrderManagementSystem.MainPage"
-             Title="Menedżer Produktów">
+             Title="Menedżer Produktów"
+             Shell.NavBarHasShadow="True">
+
+    <Shell.TitleView>
+        <Label Text="Menadżer produktów"
+               FontSize="Large"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center">
+            <Label.Shadow>
+                <Shadow Brush="Fuchsia"/>
+            </Label.Shadow>
+               </Label>
+    </Shell.TitleView>
 
     <ScrollView>
         <AbsoluteLayout>
@@ -118,7 +130,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout>
-                                <Frame Margin="0,-5">
+                                <Frame Margin="0,-5" Opacity="0.85">
                                     <Grid ColumnDefinitions="*,*,*,*,*,*" RowDefinitions="*" Padding="5">
                                         <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
                                         <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
