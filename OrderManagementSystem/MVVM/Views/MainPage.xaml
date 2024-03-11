@@ -5,132 +5,143 @@
              Title="Menedżer Produktów">
 
     <ScrollView>
-        
-    
-    <VerticalStackLayout Padding="20">
-        <!--#region Entries -->
-        <Label Text="Dodaj nowy produkt" FontSize="20" 
+
+        <Border StrokeShape="RoundRectangle 50,50,50,50"
+                Background="#1b1448"
+                StrokeThickness="5">
+            <Border.Stroke>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Stroke>
+
+            <VerticalStackLayout Padding="20">
+                <!--#region Entries -->
+                <Label Text="Dodaj nowy produkt" FontSize="20" 
                HorizontalOptions="Center" 
                Margin="0,0,0,10" />
 
-        <Entry x:Name="ProductNameEntry" Placeholder="Nazwa produktu"/>
-        
-        <Entry x:Name="ProductPriceEntry" Placeholder="Cena produktu" 
+                <Entry x:Name="ProductNameEntry" Placeholder="Nazwa produktu"/>
+
+                <Entry x:Name="ProductPriceEntry" Placeholder="Cena produktu" 
                Keyboard="Numeric"/>
 
-        <Label Text="Kategoria:"/>
-        <Picker x:Name="KategoriaPicker" Title="Wybierz kategorię">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Elektronika</x:String>
-                    <x:String>Odzież</x:String>
-                    <x:String>Spożywcze</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
+                <Label Text="Kategoria:"/>
+                <Picker x:Name="KategoriaPicker" Title="Wybierz kategorię">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Elektronika</x:String>
+                            <x:String>Odzież</x:String>
+                            <x:String>Spożywcze</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
 
-            <Button Text="Dodaj produkt"
+                <Button Text="Dodaj produkt"
                 Clicked="AddProduct_Clicked"/>
-            <!--#endregion-->
-        
-        <!--#region Sortuj Kategorie-->
-            <Label Text="Wybierz kategorię" FontSize="20"
+                <!--#endregion-->
+
+                <!--#region Sortuj Kategorie-->
+                <Label Text="Wybierz kategorię" FontSize="20"
                Margin="0, 20, 0,10 "/>
 
-            <Picker x:Name="WyswietlKategoriaPicker" Title="Sortuj Kategorie" SelectedIndex="0"
+                <Picker x:Name="WyswietlKategoriaPicker" Title="Sortuj Kategorie" SelectedIndex="0"
                     SelectedIndexChanged="KategoriaPicker_SelectedIndexChanged" >
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}" >
-                        <x:String>All</x:String>
-                        <x:String>Odzież</x:String>
-                        <x:String>Spożywcze</x:String>
-                        <x:String>Elektronika</x:String>
-                        <!-- Add more categories as needed -->
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}" >
+                            <x:String>All</x:String>
+                            <x:String>Odzież</x:String>
+                            <x:String>Spożywcze</x:String>
+                            <x:String>Elektronika</x:String>
+                            <!-- Add more categories as needed -->
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
 
-            <!--#endregion-->
-        
-        <!--#region List of Products-->
+                <!--#endregion-->
 
-        <!--#region Column Headers-->
-            <Label Text="Lista produktów" FontSize="26"
+                <!--#region List of Products-->
+
+                <!--#region Column Headers-->
+                <Label Text="Lista produktów" FontSize="26"
                Margin="0, 20 " HorizontalOptions="Center">
-                <Label.Shadow>
-                    <Shadow Brush="Yellow"/>
-                </Label.Shadow>
-            </Label>
+                    <Label.Shadow>
+                        <Shadow Brush="Yellow"/>
+                    </Label.Shadow>
+                </Label>
 
 
-            <Border BackgroundColor="Transparent" Stroke="Yellow" Opacity="0.8" StrokeThickness="3"
+                <Border BackgroundColor="Transparent" Stroke="Yellow" Opacity="0.8" StrokeThickness="3"
                     StrokeShape="RoundRectangle 20,20,0,0">
-                <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
-                    <Label Text="ID" FontSize="16" Grid.Column="0"
-                           FontAttributes="Bold"/>
-                
-                    <Label Text="Nazwa" FontSize="16" Grid.Column="1"
-                           FontAttributes="Bold"/>
-                
-                    <Label Text="Cena" FontSize="16" Grid.Column="2"
-                           FontAttributes="Bold"/>
-                
-                    <Label Text="Kategoria" FontSize="16" Grid.Column="3"
+                    <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
+                        <Label Text="ID" FontSize="16" Grid.Column="0"
                            FontAttributes="Bold"/>
 
-                    <Label Text="Edytuj" FontSize="16" Grid.Column="4"
+                        <Label Text="Nazwa" FontSize="16" Grid.Column="1"
                            FontAttributes="Bold"/>
 
-                <Label Text="Usuń" FontSize="16" Grid.Column="5" 
+                        <Label Text="Cena" FontSize="16" Grid.Column="2"
                            FontAttributes="Bold"/>
-                </Grid>
-                <Border.Shadow>
-                    <Shadow Brush="Yellow"/>
-                </Border.Shadow>
-            </Border>
-            <!--#endregion-->
 
-            <CollectionView ItemsLayout="VerticalList" SelectionMode="Single"
+                        <Label Text="Kategoria" FontSize="16" Grid.Column="3"
+                           FontAttributes="Bold"/>
+
+                        <Label Text="Edytuj" FontSize="16" Grid.Column="4"
+                           FontAttributes="Bold"/>
+
+                        <Label Text="Usuń" FontSize="16" Grid.Column="5" 
+                           FontAttributes="Bold"/>
+                    </Grid>
+                    <Border.Shadow>
+                        <Shadow Brush="Yellow"/>
+                    </Border.Shadow>
+                </Border>
+                <!--#endregion-->
+
+                <CollectionView ItemsLayout="VerticalList" SelectionMode="Single"
                 ItemsSource="{Binding ProductsList}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout>
-                            <Frame Margin="0,-5">
-                                <Grid ColumnDefinitions="*,*,*,*,*,*" RowDefinitions="*" Padding="5">
-                                    <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
-                                    <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
-                                    <Label Text="{Binding Price}" FontSize="16" Grid.Column="2"/>
-                                    <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout>
+                                <Frame Margin="0,-5">
+                                    <Grid ColumnDefinitions="*,*,*,*,*,*" RowDefinitions="*" Padding="5">
+                                        <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
+                                        <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
+                                        <Label Text="{Binding Price}" FontSize="16" Grid.Column="2"/>
+                                        <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
 
-                                    <Button Text="Edytuj" FontSize="16" Grid.Column="4"
+                                        <Button Text="Edytuj" FontSize="16" Grid.Column="4"
                                             BackgroundColor="Blue" TextColor="White"
                                             Clicked="EditButton_Clicked"/>
 
-                                    <Button Text="Usuń" FontSize="16" Grid.Column="5"
+                                        <Button Text="Usuń" FontSize="16" Grid.Column="5"
                                             BackgroundColor="Red" 
                                             Clicked="DeleteButton_Clicked"/>
 
-                                </Grid>
-                            </Frame>
-                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
 
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-            <Frame BackgroundColor="#ffdfd4" x:Name="ifNoProductInCategory_Frame" 
+                <Frame BackgroundColor="#ffdfd4" x:Name="ifNoProductInCategory_Frame" 
                        HorizontalOptions="Center"
                    Margin="20">
-                <Label x:Name="ifNoProductInCategory_Label"
-                       Text="Proszę wybrać kategorię!"
+                    <Label x:Name="ifNoProductInCategory_Label"
+                       Text="Proszę posortuj kategorię!"
                        FontSize="25"
                        TextColor="Red"/>
-            </Frame>
+                </Frame>
 
-            <!--#endregion-->
-        
-        
-        </VerticalStackLayout>
+                <!--#endregion-->
+
+
+            </VerticalStackLayout>
+        </Border>
     </ScrollView>
 
 </ContentPage>
