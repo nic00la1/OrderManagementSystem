@@ -6,8 +6,7 @@
 
     <ScrollView>
 
-        <Border StrokeShape="RoundRectangle 50,50,50,50"
-                Background="#1b1448"
+            <Border StrokeShape="RoundRectangle 50,50,50,50"
                 StrokeThickness="5">
             <Border.Stroke>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -16,6 +15,13 @@
                     <GradientStop Color="#8A16C1" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Stroke>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="0.75"/>
+                </LinearGradientBrush>
+            </Border.Background>
 
             <VerticalStackLayout Padding="20">
                 <!--#region Entries -->
