@@ -5,9 +5,16 @@
              Title="Menedżer Produktów">
 
     <ScrollView>
+        <AbsoluteLayout>
+            <!-- Zdjęcie w tle -->
+            <Image Source="laptop.png" Aspect="AspectFill" 
+                   AbsoluteLayout.LayoutFlags="All" 
+                   AbsoluteLayout.LayoutBounds="0,0,1,1"/>
 
+            <!-- Border na pierwszym planie -->
             <Border StrokeShape="RoundRectangle 50,50,50,50"
-                StrokeThickness="5">
+                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                StrokeThickness="5" Opacity="0.9">
             <Border.Stroke>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#462AD8" Offset="0"/>
@@ -148,6 +155,7 @@
 
             </VerticalStackLayout>
         </Border>
+        </AbsoluteLayout>
     </ScrollView>
 
 </ContentPage>
