@@ -134,8 +134,8 @@
                                     <Grid ColumnDefinitions="*,*,*,*,*,*" RowDefinitions="*" Padding="5">
                                         <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
                                         <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
-                                        <Label Text="{Binding Price}" FontSize="16" Grid.Column="2"/>
-                                        <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
+                                            <Label Text="{Binding Price, StringFormat='{}{0:c}'}" FontSize="16" Grid.Column="2"/>
+                                            <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
 
                                         <Button Text="Edytuj" FontSize="16" Grid.Column="4"
                                             BackgroundColor="Blue" TextColor="White"

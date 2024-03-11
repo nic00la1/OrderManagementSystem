@@ -59,6 +59,11 @@ namespace OrderManagementSystem
                 ifNoProductInCategory_Label.IsVisible = false;
             }
 
+            // Wyczyść pola tekstowe
+            ProductNameEntry.Text = "";
+            ProductPriceEntry.Text = "";
+            KategoriaPicker.SelectedItem = null;
+
             DisplayProducts();
         }
 
