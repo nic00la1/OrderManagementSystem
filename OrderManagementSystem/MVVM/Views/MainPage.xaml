@@ -42,56 +42,82 @@
                 </LinearGradientBrush>
             </Border.Background>
 
-            <VerticalStackLayout Padding="20">
-                <!--#region Entries -->
-                <Label Text="Dodaj nowy produkt" FontSize="20"  TextColor="Black"
-               HorizontalOptions="Center" 
-               Margin="0,0,0,10" />
+                <VerticalStackLayout Padding="20">
+                    <!--#region Entries -->
+                    <Label Text="Dodaj nowy produkt" FontSize="20" TextColor="Black"
+       HorizontalOptions="Center" 
+       Margin="0,0,0,10" />
 
-                <Entry x:Name="ProductNameEntry" Placeholder="Nazwa produktu"/>
+                    <Entry x:Name="ProductNameEntry" Placeholder="Nazwa produktu" 
+       HorizontalOptions="FillAndExpand" />
 
-                <Entry x:Name="ProductPriceEntry" Placeholder="Cena produktu"
-               Keyboard="Numeric"/>
+                    <Grid ColumnDefinitions="*,*,*">
+                        <Entry x:Name="ProductPriceEntry" Placeholder="Cena produktu"
+           Keyboard="Numeric" Grid.Column="0" 
+           HorizontalOptions="FillAndExpand" Margin="0,0,5,0"/>
 
-                <Entry x:Name="ProductQuantity" Placeholder="Ilość sztuk" 
-                Keyboard="Numeric"/>
+                        <Entry x:Name="ProductQuantity" Placeholder="Ilość sztuk" 
+           Keyboard="Numeric" Grid.Column="1" 
+           HorizontalOptions="FillAndExpand" Margin="0,0,5,0"/>
 
-                <Picker x:Name="ProductDistributionPicker" Title="Wybierz dystrybucję" TextColor="Black">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Dystrybucja 1</x:String>
-                        <x:String>Dystrybucja 2</x:String>
-                        <x:String>Dystrybucja 3</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-                </Picker>
+                        <Picker x:Name="ProductDistributionPicker" Title="Wybierz dystrybucję" 
+            TextColor="Black" Grid.Column="2" 
+            HorizontalOptions="FillAndExpand">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>AB</x:String>
+                                    <x:String>Action</x:String>
+                                    <x:String>Also</x:String>
+                                    <x:String>BlastNet</x:String>
+                                    <x:String>Brinet</x:String>
+                                    <x:String>DTS</x:String>
+                                    <x:String>EET</x:String>
+                                    <x:String>Fen</x:String>
+                                    <x:String>HRD</x:String>
+                                    <x:String>Incom</x:String>
+                                    <x:String>Ingram</x:String>
+                                    <x:String>Komputronik</x:String>
+                                    <x:String>mITgroup</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Grid>
 
-                    <Entry x:Name="ProductInvoiceNumber" Placeholder="Nr faktury zakupowej"/>
+                    <Grid ColumnDefinitions="*,*">
+                        <Entry x:Name="ProductComment" Placeholder="Komentarz" 
+           HorizontalOptions="FillAndExpand" Grid.Column="0" Margin="0,0,5,0"/>
 
-                <Entry x:Name="ProductComment" Placeholder="Komentarz"/>
-                <DatePicker x:Name="ProductPurchaseDate" Format="d"/>
+                        <Picker x:Name="KategoriaPicker" Title="Wybierz kategorię" TextColor="Black" 
+            HorizontalOptions="FillAndExpand" Grid.Column="1">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Elektronika</x:String>
+                                    <x:String>Odzież</x:String>
+                                    <x:String>Spożywcze</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Grid>
 
-                <Picker x:Name="KategoriaPicker" Title="Wybierz kategorię" TextColor="Black">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Elektronika</x:String>
-                            <x:String>Odzież</x:String>
-                            <x:String>Spożywcze</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                    <Grid ColumnDefinitions="*,*">
+                        <DatePicker x:Name="ProductPurchaseDate" Format="d" 
+                HorizontalOptions="FillAndExpand" Grid.Column="0" Margin="0,0,5,0"/>
 
-                <Button Text="Dodaj produkt"
-                Clicked="AddProduct_Clicked"/>
-                <!--#endregion-->
+                        <Entry x:Name="ProductInvoiceNumber" Placeholder="Nr faktury zakupowej" 
+           HorizontalOptions="FillAndExpand" Grid.Column="1" Margin="0,0,5,0"/>
+                    </Grid>
 
-                <!--#region Sortuj Kategorie-->
+                    <Button Text="Dodaj produkt"
+        Clicked="AddProduct_Clicked" 
+        HorizontalOptions="FillAndExpand"/>
+                    <!--#endregion-->
+
+                    <!--#region Sortuj Kategorie-->
                     <Label Text="Wybierz kategorię" FontSize="20" TextColor="White" Margin="0, 20, 0,10"/>
 
                     <Picker x:Name="WyswietlKategoriaPicker" Title="Sortuj Kategorie" SelectedIndex="0"
-                        SelectedIndexChanged="KategoriaPicker_SelectedIndexChanged"
-                        TextColor="Black">
-                        <!-- Add TextColor property here -->
+            SelectedIndexChanged="KategoriaPicker_SelectedIndexChanged"
+            TextColor="Black" HorizontalOptions="FillAndExpand">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>All</x:String>
@@ -102,61 +128,58 @@
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
-
                     <!--#endregion-->
 
-                <!--#region List of Products-->
+                    <!--#region List of Products-->
+                    <!--#region Column Headers-->
+                    <Label Text="Lista produktów" FontSize="26"
+           Margin="0, 20 " HorizontalOptions="Center">
+                        <Label.Shadow>
+                            <Shadow Brush="Yellow"/>
+                        </Label.Shadow>
+                    </Label>
 
-                <!--#region Column Headers-->
-                <Label Text="Lista produktów" FontSize="26"
-               Margin="0, 20 " HorizontalOptions="Center">
-                    <Label.Shadow>
-                        <Shadow Brush="Yellow"/>
-                    </Label.Shadow>
-                </Label>
+                    <Border BackgroundColor="Transparent" Stroke="Yellow" Opacity="0.8" StrokeThickness="3"
+            StrokeShape="RoundRectangle 20,20,0,0">
+                        <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
+                            <Label Text="ID" FontSize="16" Grid.Column="0"
+                   FontAttributes="Bold"/>
 
+                            <Label Text="Nazwa produktu" FontSize="16" Grid.Column="1"
+                   FontAttributes="Bold"/>
 
-                <Border BackgroundColor="Transparent" Stroke="Yellow" Opacity="0.8" StrokeThickness="3"
-                    StrokeShape="RoundRectangle 20,20,0,0">
-                    <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
-                        <Label Text="ID" FontSize="16" Grid.Column="0"
-                           FontAttributes="Bold"/>
+                            <Label Text="Ilość sztuk" FontSize="16" Grid.Column="2"
+                   FontAttributes="Bold"/>
 
-                        <Label Text="Nazwa produktu" FontSize="16" Grid.Column="1"
-                           FontAttributes="Bold"/>
+                            <Label Text="Kategoria" FontSize="16" Grid.Column="3"
+                   FontAttributes="Bold"/>
 
-                        <Label Text="Ilość sztuk" FontSize="16" Grid.Column="2"
-                           FontAttributes="Bold" TextColor="White"/>
+                            <Label Text="Dystrybucja" FontSize="16" Grid.Column="4"
+                   FontAttributes="Bold"/>
 
-                        <Label Text="Kategoria" FontSize="16" Grid.Column="3"
-                           FontAttributes="Bold" TextColor="White"/>
-
-                        <Label Text="Dystrybucja" FontSize="16" Grid.Column="4"
-                            FontAttributes="Bold" TextColor="White"/>
-
-                        <Label Text="Nr faktury zakupowej" FontSize="16" Grid.Column="5"
-                               FontAttributes="Bold" TextColor="White"/>
+                            <Label Text="Nr faktury zakupowej" FontSize="16" Grid.Column="5"
+                   FontAttributes="Bold"/>
 
                             <Label Text="Data zakupu" FontSize="16" Grid.Column="6"
-                               FontAttributes="Bold" TextColor="White"/>
+                   FontAttributes="Bold"/>
 
                             <Label Text="Komentarz" FontSize="16" Grid.Column="7"
-                                FontAttributes="Bold" TextColor="White"/>
+                   FontAttributes="Bold"/>
 
-                        <Label Text="Edytuj" FontSize="16" Grid.Column="8"
-                    FontAttributes="Bold" TextColor="White"/>
+                            <Label Text="Edytuj" FontSize="16" Grid.Column="8"
+                   FontAttributes="Bold"/>
 
-                        <Label Text="Usuń" FontSize="16" Grid.Column="9" 
-                           FontAttributes="Bold" TextColor="White"/>
-                    </Grid>
-                    <Border.Shadow>
-                        <Shadow Brush="Yellow"/>
-                    </Border.Shadow>
-                </Border>
-                <!--#endregion-->
+                            <Label Text="Usuń" FontSize="16" Grid.Column="9" 
+                   FontAttributes="Bold"/>
+                        </Grid>
+                        <Border.Shadow>
+                            <Shadow Brush="Yellow"/>
+                        </Border.Shadow>
+                    </Border>
+                    <!--#endregion-->
 
                     <CollectionView ItemsLayout="VerticalList" SelectionMode="Single"
-                ItemsSource="{Binding ProductsList}">
+                    ItemsSource="{Binding ProductsList}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
@@ -171,11 +194,11 @@
                                             <Label Text="{Binding PurchaseDate, StringFormat='{0:d}'}" FontSize="16" Grid.Column="5"/>
                                             <Label Text="{Binding Comment}" FontSize="16" Grid.Column="6"/>
                                             <Button Text="Edytuj" FontSize="16" Grid.Column="7"
-                                BackgroundColor="Blue" TextColor="White"
-                                Clicked="EditButton_Clicked"/>
+                                    BackgroundColor="Blue" TextColor="White"
+                                    Clicked="EditButton_Clicked"/>
                                             <Button Text="Usuń" FontSize="16" Grid.Column="8"
-                                BackgroundColor="Red" 
-                                Clicked="DeleteButton_Clicked"/>
+                                    BackgroundColor="Red" 
+                                    Clicked="DeleteButton_Clicked"/>
                                         </Grid>
                                     </Frame>
                                 </StackLayout>
@@ -184,19 +207,16 @@
                     </CollectionView>
 
                     <Frame BackgroundColor="#ffdfd4" x:Name="ifNoProductInCategory_Frame" 
-                       HorizontalOptions="Center"
-                   Margin="20">
-                    <Label x:Name="ifNoProductInCategory_Label"
-                       Text="Proszę posortuj kategorię!"
-                       FontSize="25"
-                       TextColor="Red"/>
-                </Frame>
-
-                <!--#endregion-->
-
-
-            </VerticalStackLayout>
-        </Border>
+           HorizontalOptions="Center"
+           Margin="20">
+                        <Label x:Name="ifNoProductInCategory_Label"
+               Text="Proszę posortuj kategorię!"
+               FontSize="25"
+               TextColor="Red"/>
+                    </Frame>
+                    <!--#endregion-->
+                </VerticalStackLayout>
+            </Border>
         </AbsoluteLayout>
     </ScrollView>
 
