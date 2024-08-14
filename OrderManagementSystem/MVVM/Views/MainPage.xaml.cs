@@ -26,7 +26,7 @@ namespace OrderManagementSystem
             string? category = KategoriaPicker.SelectedItem?.ToString();
             int quantity;
             bool isQuantityValid = Int32.TryParse(ProductQuantity.Text, out quantity);
-            string distribution = ProductDistribution.Text;
+            string distribution = ProductDistributionPicker.SelectedItem?.ToString();
             string invoiceNumber = ProductInvoiceNumber.Text;
             DateTime purchaseDate = ProductPurchaseDate.Date;
             string comment = ProductComment.Text;
@@ -53,6 +53,11 @@ namespace OrderManagementSystem
                 errorMessage += "Nieprawidłowa ilość. Proszę wprowadzić dodatnią liczbę.\n";
             }
 
+            if (string.IsNullOrWhiteSpace(distribution))
+            {
+                errorMessage += "Dystrybucja jest wymagana.\n";
+            }
+
             if (!string.IsNullOrWhiteSpace(errorMessage))
             {
                 DisplayAlert("Błąd", errorMessage, "OK");
@@ -75,7 +80,7 @@ namespace OrderManagementSystem
             ProductPriceEntry.Text = "";
             KategoriaPicker.SelectedItem = null;
             ProductQuantity.Text = "";
-            ProductDistribution.Text = "";
+            ProductDistributionPicker.SelectedItem = null;
             ProductInvoiceNumber.Text = "";
             ProductPurchaseDate.Date = DateTime.Now;
             ProductComment.Text = "";
@@ -114,7 +119,7 @@ namespace OrderManagementSystem
             string name = await DisplayPromptAsync("Zmień nazwę", "Wprowadź nową nazwę", initialValue: selectedProduct.Name);
             decimal price = Convert.ToDecimal(await DisplayPromptAsync("Zmień cenę", "Wprowadź nową cenę", initialValue: selectedProduct.Price.ToString()));
             int quantity = Convert.ToInt32(await DisplayPromptAsync("Zmień ilość", "Wprowadź nową ilość", initialValue: selectedProduct.Quantity.ToString()));
-            string distribution = await DisplayPromptAsync("Zmień dystrybucję", "Wprowadź nową dystrybucję", initialValue: selectedProduct.Distribution);
+            string distribution = await DisplayActionSheet("Zmień dystrybucję", "Anuluj", null, "Dystrybucja 1", "Dystrybucja 2", "Dystrybucja 3");
             string invoiceNumber = await DisplayPromptAsync("Zmień nr faktury zakupowej", "Wprowadź nowy nr faktury zakupowej", initialValue: selectedProduct.InvoiceNumber);
             string purchaseDateString = await DisplayPromptAsync("Zmień datę zakupu", "Wprowadź nową datę zakupu (dd/MM/yyyy)", initialValue: selectedProduct.PurchaseDate.ToString("dd/MM/yyyy"));
             DateTime purchaseDate = DateTime.ParseExact(purchaseDateString, "dd/MM/yyyy", null);

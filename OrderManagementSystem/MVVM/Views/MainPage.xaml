@@ -56,16 +56,21 @@
                 <Entry x:Name="ProductQuantity" Placeholder="Ilość sztuk" 
                 Keyboard="Numeric"/>
 
-                <Entry x:Name="ProductDistribution" Placeholder="Dystrybucja"/>
+                <Picker x:Name="ProductDistributionPicker" Title="Wybierz dystrybucję" TextColor="Black">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Dystrybucja 1</x:String>
+                        <x:String>Dystrybucja 2</x:String>
+                        <x:String>Dystrybucja 3</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+                </Picker>
 
-                <Entry x:Name="ProductInvoiceNumber" Placeholder="Nr faktury zakupowej"/>
+                    <Entry x:Name="ProductInvoiceNumber" Placeholder="Nr faktury zakupowej"/>
 
                 <Entry x:Name="ProductComment" Placeholder="Komentarz"/>
                 <DatePicker x:Name="ProductPurchaseDate" Format="d"/>
 
-
-
-                    <Label Text="Kategoria:"/>
                 <Picker x:Name="KategoriaPicker" Title="Wybierz kategorię" TextColor="Black">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
@@ -115,10 +120,10 @@
                     StrokeShape="RoundRectangle 20,20,0,0">
                     <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
                         <Label Text="ID" FontSize="16" Grid.Column="0"
-                           FontAttributes="Bold" TextColor="White"/>
+                           FontAttributes="Bold"/>
 
                         <Label Text="Nazwa produktu" FontSize="16" Grid.Column="1"
-                           FontAttributes="Bold" TextColor="White"/>
+                           FontAttributes="Bold"/>
 
                         <Label Text="Ilość sztuk" FontSize="16" Grid.Column="2"
                            FontAttributes="Bold" TextColor="White"/>
