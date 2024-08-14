@@ -141,35 +141,38 @@
 
                     <Border BackgroundColor="Transparent" Stroke="Yellow" Opacity="0.8" StrokeThickness="3"
             StrokeShape="RoundRectangle 20,20,0,0">
-                        <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
+                        <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
                             <Label Text="ID" FontSize="16" Grid.Column="0"
                    FontAttributes="Bold"/>
 
                             <Label Text="Nazwa produktu" FontSize="16" Grid.Column="1"
                    FontAttributes="Bold"/>
 
-                            <Label Text="Ilość sztuk" FontSize="16" Grid.Column="2"
+                        <Label Text="Cena" FontSize="16" Grid.Column="2"
+                               FontAttributes="Bold"/>
+
+                            <Label Text="Ilość sztuk" FontSize="16" Grid.Column="3"
                    FontAttributes="Bold"/>
 
-                            <Label Text="Kategoria" FontSize="16" Grid.Column="3"
+                            <Label Text="Kategoria" FontSize="16" Grid.Column="4"
                    FontAttributes="Bold"/>
 
-                            <Label Text="Dystrybucja" FontSize="16" Grid.Column="4"
+                            <Label Text="Dystrybucja" FontSize="16" Grid.Column="5"
                    FontAttributes="Bold"/>
 
-                            <Label Text="Nr faktury zakupowej" FontSize="16" Grid.Column="5"
+                            <Label Text="Nr faktury zakupowej" FontSize="16" Grid.Column="6"
                    FontAttributes="Bold"/>
 
-                            <Label Text="Data zakupu" FontSize="16" Grid.Column="6"
+                            <Label Text="Data zakupu" FontSize="16" Grid.Column="7"
                    FontAttributes="Bold"/>
 
-                            <Label Text="Komentarz" FontSize="16" Grid.Column="7"
+                            <Label Text="Komentarz" FontSize="16" Grid.Column="8"
                    FontAttributes="Bold"/>
 
-                            <Label Text="Edytuj" FontSize="16" Grid.Column="8"
+                            <Label Text="Edytuj" FontSize="16" Grid.Column="9"
                    FontAttributes="Bold"/>
 
-                            <Label Text="Usuń" FontSize="16" Grid.Column="9" 
+                            <Label Text="Usuń" FontSize="16" Grid.Column="10" 
                    FontAttributes="Bold"/>
                         </Grid>
                         <Border.Shadow>
@@ -184,19 +187,20 @@
                             <DataTemplate>
                                 <StackLayout>
                                     <Frame Margin="0,-5" Opacity="0.85">
-                                        <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*" RowDefinitions="*" Padding="5">
+                                        <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*,*" RowDefinitions="*" Padding="5">
                                             <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
                                             <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
-                                            <Label Text="{Binding Quantity}" FontSize="16" Grid.Column="2"/>
-                                            <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
-                                            <Label Text="{Binding Distribution}" FontSize="16" Grid.Column="4"/>
-                                            <Label Text="{Binding InvoiceNumber}" FontSize="16" Grid.Column="5"/>
-                                            <Label Text="{Binding PurchaseDate, StringFormat='{0:d}'}" FontSize="16" Grid.Column="5"/>
+                                            <Label Text="{Binding PriceWithCurrency}" FontSize="16" Grid.Column="2"/>
+                                            <Label Text="{Binding Quantity}" FontSize="16" Grid.Column="3"/>
+                                            <Label Text="{Binding Category}" FontSize="16" Grid.Column="4"/>
+                                            <Label Text="{Binding Distribution}" FontSize="16" Grid.Column="5"/>
+                                            <Label Text="{Binding InvoiceNumber}" FontSize="16" Grid.Column="6"/>
+                                            <Label Text="{Binding PurchaseDate, StringFormat='{0:d}'}" FontSize="16" Grid.Column="7"/>
                                             <Label Text="{Binding Comment}" FontSize="16" Grid.Column="6"/>
-                                            <Button Text="Edytuj" FontSize="16" Grid.Column="7"
+                                            <Button Text="Edytuj" FontSize="16" Grid.Column="8"
                                     BackgroundColor="Blue" TextColor="White"
                                     Clicked="EditButton_Clicked"/>
-                                            <Button Text="Usuń" FontSize="16" Grid.Column="8"
+                                            <Button Text="Usuń" FontSize="16" Grid.Column="9"
                                     BackgroundColor="Red" 
                                     Clicked="DeleteButton_Clicked"/>
                                         </Grid>

@@ -13,7 +13,7 @@
         public DateTime PurchaseDate { get; set; }
         public string Comment { get; set; }
 
-
+        public string PriceWithCurrency => $"{Price} zł";
 
         // Constructor
         public Product(int id, string name, decimal price, string category, int quantity, string distribution, string invoiceNumber, DateTime purchaseDate, string comment)
