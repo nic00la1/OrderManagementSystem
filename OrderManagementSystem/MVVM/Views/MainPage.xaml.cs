@@ -27,6 +27,7 @@ namespace OrderManagementSystem
             int quantity;
             bool isQuantityValid = Int32.TryParse(ProductQuantity.Text, out quantity);
             string distribution = ProductDistribution.Text;
+            string invoiceNumber = ProductInvoiceNumber.Text;
             DateTime purchaseDate = ProductPurchaseDate.Date;
             string comment = ProductComment.Text;
 
@@ -58,8 +59,7 @@ namespace OrderManagementSystem
                 return;
             }
 
-
-            Product newProduct = new Product(id, name, price, category, quantity, distribution,comment, purchaseDate);
+            Product newProduct = new Product(id, name, price, category, quantity, distribution, invoiceNumber, purchaseDate, comment);
             products.Add(newProduct);
 
             nextProductId++; // Zwiększ licznik po dodaniu produktu
@@ -76,6 +76,7 @@ namespace OrderManagementSystem
             KategoriaPicker.SelectedItem = null;
             ProductQuantity.Text = "";
             ProductDistribution.Text = "";
+            ProductInvoiceNumber.Text = "";
             ProductPurchaseDate.Date = DateTime.Now;
             ProductComment.Text = "";
 
@@ -89,7 +90,7 @@ namespace OrderManagementSystem
             for (int i = 0; i < products.Count; i++)
             {
                 Product product = products[i];
-                updatedProducts.Add(new Product(i + 1, product.Name, product.Price, product.Category, product.Quantity, product.Distribution, product.Comment, product.PurchaseDatewi));
+                updatedProducts.Add(new Product(i + 1, product.Name, product.Price, product.Category, product.Quantity, product.Distribution, product.InvoiceNumber, product.PurchaseDate, product.Comment));
             }
 
             // Wyczyść ProductsList i dodaj zaktualizowane produkty
@@ -114,6 +115,7 @@ namespace OrderManagementSystem
             decimal price = Convert.ToDecimal(await DisplayPromptAsync("Zmień cenę", "Wprowadź nową cenę", initialValue: selectedProduct.Price.ToString()));
             int quantity = Convert.ToInt32(await DisplayPromptAsync("Zmień ilość", "Wprowadź nową ilość", initialValue: selectedProduct.Quantity.ToString()));
             string distribution = await DisplayPromptAsync("Zmień dystrybucję", "Wprowadź nową dystrybucję", initialValue: selectedProduct.Distribution);
+            string invoiceNumber = await DisplayPromptAsync("Zmień nr faktury zakupowej", "Wprowadź nowy nr faktury zakupowej", initialValue: selectedProduct.InvoiceNumber);
             string purchaseDateString = await DisplayPromptAsync("Zmień datę zakupu", "Wprowadź nową datę zakupu (dd/MM/yyyy)", initialValue: selectedProduct.PurchaseDate.ToString("dd/MM/yyyy"));
             DateTime purchaseDate = DateTime.ParseExact(purchaseDateString, "dd/MM/yyyy", null);
             string comment = await DisplayPromptAsync("Zmień komentarz", "Wprowadź nowy komentarz", initialValue: selectedProduct.Comment);
@@ -134,11 +136,12 @@ namespace OrderManagementSystem
             selectedProduct.Category = category;
             selectedProduct.Quantity = quantity;
             selectedProduct.Distribution = distribution;
+            selectedProduct.InvoiceNumber = invoiceNumber;
             selectedProduct.PurchaseDate = purchaseDate;
             selectedProduct.Comment = comment;
 
             // Utwórz nowy obiekt produktu
-            Product newProduct = new Product(id, name, price, category, quantity, distribution, comment, purchaseDate);
+            Product newProduct = new Product(id, name, price, category, quantity, distribution, invoiceNumber, purchaseDate, comment);
 
             // Zamień edytowany produkt na nowy w liście produktów
             int index = products.IndexOf(selectedProduct);
