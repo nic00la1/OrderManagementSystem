@@ -9,7 +9,7 @@
         <Label Text="Menadżer produktów"
                FontSize="Large"
                HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center">
+               VerticalTextAlignment="Center" TextColor="White">
             <Label.Shadow>
                 <Shadow Brush="Fuchsia"/>
             </Label.Shadow>
@@ -44,17 +44,25 @@
 
             <VerticalStackLayout Padding="20">
                 <!--#region Entries -->
-                <Label Text="Dodaj nowy produkt" FontSize="20" 
+                <Label Text="Dodaj nowy produkt" FontSize="20"  TextColor="Black"
                HorizontalOptions="Center" 
                Margin="0,0,0,10" />
 
                 <Entry x:Name="ProductNameEntry" Placeholder="Nazwa produktu"/>
 
-                <Entry x:Name="ProductPriceEntry" Placeholder="Cena produktu" 
+                <Entry x:Name="ProductPriceEntry" Placeholder="Cena produktu"
                Keyboard="Numeric"/>
 
-                <Label Text="Kategoria:"/>
-                <Picker x:Name="KategoriaPicker" Title="Wybierz kategorię">
+                <Entry x:Name="ProductQuantity" Placeholder="Ilość sztuk" 
+                Keyboard="Numeric"/>
+
+                <Entry x:Name="ProductDistribution" Placeholder="Dystrybucja"/>
+
+                <Entry x:Name="ProductComment" Placeholder="Komentarz"/>
+
+
+                    <Label Text="Kategoria:"/>
+                <Picker x:Name="KategoriaPicker" Title="Wybierz kategorię" TextColor="Black">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>Elektronika</x:String>
@@ -69,23 +77,24 @@
                 <!--#endregion-->
 
                 <!--#region Sortuj Kategorie-->
-                <Label Text="Wybierz kategorię" FontSize="20"
-               Margin="0, 20, 0,10 "/>
+                    <Label Text="Wybierz kategorię" FontSize="20" TextColor="White" Margin="0, 20, 0,10"/>
 
-                <Picker x:Name="WyswietlKategoriaPicker" Title="Sortuj Kategorie" SelectedIndex="0"
-                    SelectedIndexChanged="KategoriaPicker_SelectedIndexChanged" >
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}" >
-                            <x:String>All</x:String>
-                            <x:String>Odzież</x:String>
-                            <x:String>Spożywcze</x:String>
-                            <x:String>Elektronika</x:String>
-                            <!-- Add more categories as needed -->
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                    <Picker x:Name="WyswietlKategoriaPicker" Title="Sortuj Kategorie" SelectedIndex="0"
+                        SelectedIndexChanged="KategoriaPicker_SelectedIndexChanged"
+                        TextColor="Black">
+                        <!-- Add TextColor property here -->
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>All</x:String>
+                                <x:String>Odzież</x:String>
+                                <x:String>Spożywcze</x:String>
+                                <x:String>Elektronika</x:String>
+                                <!-- Add more categories as needed -->
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
 
-                <!--#endregion-->
+                    <!--#endregion-->
 
                 <!--#region List of Products-->
 
@@ -100,24 +109,30 @@
 
                 <Border BackgroundColor="Transparent" Stroke="Yellow" Opacity="0.8" StrokeThickness="3"
                     StrokeShape="RoundRectangle 20,20,0,0">
-                    <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
+                    <Grid ColumnDefinitions="*,*,*,*,*,*,*,*" Padding="10" ColumnSpacing="10">
                         <Label Text="ID" FontSize="16" Grid.Column="0"
-                           FontAttributes="Bold"/>
+                           FontAttributes="Bold" TextColor="White"/>
 
-                        <Label Text="Nazwa" FontSize="16" Grid.Column="1"
-                           FontAttributes="Bold"/>
+                        <Label Text="Nazwa produktu" FontSize="16" Grid.Column="1"
+                           FontAttributes="Bold" TextColor="White"/>
 
-                        <Label Text="Cena" FontSize="16" Grid.Column="2"
-                           FontAttributes="Bold"/>
+                        <Label Text="Ilość sztuk" FontSize="16" Grid.Column="2"
+                           FontAttributes="Bold" TextColor="White"/>
 
                         <Label Text="Kategoria" FontSize="16" Grid.Column="3"
-                           FontAttributes="Bold"/>
+                           FontAttributes="Bold" TextColor="White"/>
 
-                        <Label Text="Edytuj" FontSize="16" Grid.Column="4"
-                           FontAttributes="Bold"/>
+                        <Label Text="Dystrybucja" FontSize="16" Grid.Column="4"
+                            FontAttributes="Bold" TextColor="White"/>
 
-                        <Label Text="Usuń" FontSize="16" Grid.Column="5" 
-                           FontAttributes="Bold"/>
+                        <Label Text="Komentarz" FontSize="16" Grid.Column="5"
+                                FontAttributes="Bold" TextColor="White"/>
+
+                        <Label Text="Edytuj" FontSize="16" Grid.Column="6"
+                    FontAttributes="Bold" TextColor="White"/>
+
+                        <Label Text="Usuń" FontSize="16" Grid.Column="7" 
+                           FontAttributes="Bold" TextColor="White"/>
                     </Grid>
                     <Border.Shadow>
                         <Shadow Brush="Yellow"/>
@@ -125,35 +140,33 @@
                 </Border>
                 <!--#endregion-->
 
-                <CollectionView ItemsLayout="VerticalList" SelectionMode="Single"
+                    <CollectionView ItemsLayout="VerticalList" SelectionMode="Single"
                 ItemsSource="{Binding ProductsList}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout>
-                                <Frame Margin="0,-5" Opacity="0.85">
-                                    <Grid ColumnDefinitions="*,*,*,*,*,*" RowDefinitions="*" Padding="5">
-                                        <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
-                                        <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
-                                            <Label Text="{Binding Price, StringFormat='{}{0:c}'}" FontSize="16" Grid.Column="2"/>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <Frame Margin="0,-5" Opacity="0.85">
+                                        <Grid ColumnDefinitions="*,*,*,*,*,*,*,*" RowDefinitions="*" Padding="5">
+                                            <Label Text="{Binding Id}" FontSize="16" Grid.Column="0"/>
+                                            <Label Text="{Binding Name}" FontSize="16" Grid.Column="1"/>
+                                            <Label Text="{Binding Quantity}" FontSize="16" Grid.Column="2"/>
                                             <Label Text="{Binding Category}" FontSize="16" Grid.Column="3"/>
+                                            <Label Text="{Binding Distribution}" FontSize="16" Grid.Column="4"/>
+                                            <Label Text="{Binding Comment}" FontSize="16" Grid.Column="5"/>
+                                            <Button Text="Edytuj" FontSize="16" Grid.Column="6"
+                                BackgroundColor="Blue" TextColor="White"
+                                Clicked="EditButton_Clicked"/>
+                                            <Button Text="Usuń" FontSize="16" Grid.Column="7"
+                                BackgroundColor="Red" 
+                                Clicked="DeleteButton_Clicked"/>
+                                        </Grid>
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
 
-                                        <Button Text="Edytuj" FontSize="16" Grid.Column="4"
-                                            BackgroundColor="Blue" TextColor="White"
-                                            Clicked="EditButton_Clicked"/>
-
-                                        <Button Text="Usuń" FontSize="16" Grid.Column="5"
-                                            BackgroundColor="Red" 
-                                            Clicked="DeleteButton_Clicked"/>
-
-                                    </Grid>
-                                </Frame>
-                            </StackLayout>
-
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
-                <Frame BackgroundColor="#ffdfd4" x:Name="ifNoProductInCategory_Frame" 
+                    <Frame BackgroundColor="#ffdfd4" x:Name="ifNoProductInCategory_Frame" 
                        HorizontalOptions="Center"
                    Margin="20">
                     <Label x:Name="ifNoProductInCategory_Label"

@@ -24,6 +24,10 @@ namespace OrderManagementSystem
             decimal price;
             bool isPriceValid = Decimal.TryParse(ProductPriceEntry.Text, out price);
             string? category = KategoriaPicker.SelectedItem?.ToString();
+            int quantity;
+            bool isQuantityValid = Int32.TryParse(ProductQuantity.Text, out quantity);
+            string distribution = ProductDistribution.Text;
+            string comment = ProductComment.Text;
 
             string errorMessage = "";
 
@@ -42,13 +46,19 @@ namespace OrderManagementSystem
                 errorMessage += "Kategoria jest wymagana.\n";
             }
 
+            if (!isQuantityValid || quantity < 0)
+            {
+                errorMessage += "Nieprawidłowa ilość. Proszę wprowadzić dodatnią liczbę.\n";
+            }
+
             if (!string.IsNullOrWhiteSpace(errorMessage))
             {
                 DisplayAlert("Błąd", errorMessage, "OK");
                 return;
             }
 
-            Product newProduct = new Product(id, name, price, category);
+
+            Product newProduct = new Product(id, name, price, category, quantity, distribution, comment);
             products.Add(newProduct);
 
             nextProductId++; // Zwiększ licznik po dodaniu produktu
@@ -63,6 +73,9 @@ namespace OrderManagementSystem
             ProductNameEntry.Text = "";
             ProductPriceEntry.Text = "";
             KategoriaPicker.SelectedItem = null;
+            ProductQuantity.Text = "";
+            ProductDistribution.Text = "";
+            ProductComment.Text = "";
 
             DisplayProducts();
         }
@@ -74,7 +87,7 @@ namespace OrderManagementSystem
             for (int i = 0; i < products.Count; i++)
             {
                 Product product = products[i];
-                updatedProducts.Add(new Product(i + 1, product.Name, product.Price, product.Category));
+                updatedProducts.Add(new Product(i + 1, product.Name, product.Price, product.Category, product.Quantity, product.Distribution, product.Comment));
             }
 
             // Wyczyść ProductsList i dodaj zaktualizowane produkty
@@ -97,6 +110,9 @@ namespace OrderManagementSystem
             int id = selectedProduct.Id; // Zachowaj to samo ID jak w oryginalnym produkcie
             string name = await DisplayPromptAsync("Zmień nazwę", "Wprowadź nową nazwę", initialValue: selectedProduct.Name);
             decimal price = Convert.ToDecimal(await DisplayPromptAsync("Zmień cenę", "Wprowadź nową cenę", initialValue: selectedProduct.Price.ToString()));
+            int quantity = Convert.ToInt32(await DisplayPromptAsync("Zmień ilość", "Wprowadź nową ilość", initialValue: selectedProduct.Quantity.ToString()));
+            string distribution = await DisplayPromptAsync("Zmień dystrybucję", "Wprowadź nową dystrybucję", initialValue: selectedProduct.Distribution);
+            string comment = await DisplayPromptAsync("Zmień komentarz", "Wprowadź nowy komentarz", initialValue: selectedProduct.Comment);
 
             // Pobierz listę kategorii z pliku XAML
             List<string> categories = new List<string>();
@@ -112,9 +128,12 @@ namespace OrderManagementSystem
             selectedProduct.Name = name;
             selectedProduct.Price = price;
             selectedProduct.Category = category;
+            selectedProduct.Quantity = quantity;
+            selectedProduct.Distribution = distribution;
+            selectedProduct.Comment = comment;
 
             // Utwórz nowy obiekt produktu
-            Product newProduct = new Product(id, name, price, category);
+            Product newProduct = new Product(id, name, price, category, quantity, distribution, comment);
 
             // Zamień edytowany produkt na nowy w liście produktów
             int index = products.IndexOf(selectedProduct);
