@@ -19,7 +19,9 @@ namespace OrderManagementSystem.Dataa
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=maui.db");
+            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "maui.db");
+
+            optionsBuilder.UseSqlite($"Filename = {dbPath}");
         }
     }
 }

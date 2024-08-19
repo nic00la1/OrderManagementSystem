@@ -39,10 +39,11 @@
 
                 <VerticalStackLayout Padding="20">
                     <!--#region Entries -->
-                    <Label Text="Dodaj nowy produkt" FontSize="20" TextColor="Black"
+                    <Label Text="Dodaj nowy produkt" FontSize="20" TextColor="White"
        HorizontalOptions="Center" 
        Margin="0,0,0,10" />
 
+                    <Label x:Name="productNameLbl" FontSize="25" Text="Product Name from Database: "/>
                     <Entry x:Name="ProductNameEntry" Placeholder="Nazwa produktu" 
        HorizontalOptions="FillAndExpand" />
 

@@ -1,18 +1,32 @@
 ﻿using OrderManagementSystem.MVVM.Models;
 using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
+using OrderManagementSystem.Dataa;
 
 namespace OrderManagementSystem
 {
     public partial class MainPage : ContentPage
     {
+        private readonly DataContext _context;
         private List<Product> products = new List<Product>();
         public ObservableCollection<Product> ProductsList { get; set; }
 
-        public MainPage()
+        public MainPage(DataContext context)
         {
+            _context = context;
             InitializeComponent();
             ProductsList = new ObservableCollection<Product>();
             BindingContext = this;
+        }
+
+        protected override async void OnAppearing()
+        {
+            var product = await _context.Products.FirstOrDefaultAsync();
+
+            if (product is not null)
+            {
+                productNameLbl.Text = $"Product Name from Database: {product.Name}";
+            }
         }
 
         private static int nextProductId = 1;

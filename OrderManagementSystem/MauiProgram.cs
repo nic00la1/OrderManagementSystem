@@ -22,6 +22,8 @@ namespace OrderManagementSystem
 #endif
             builder.Services.AddDbContext<DataContext>();
 
+            builder.Services.AddSingleton<MainPage>();
+
             return builder.Build();
         }
     }
