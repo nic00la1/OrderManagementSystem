@@ -13,7 +13,7 @@ namespace OrderManagementSystem
         public MainPage(DataContext context)
         {
             InitializeComponent();
-            _context = new DataContext();
+            _context = context;
             ProductsList = new ObservableCollection<Product>();
             BindingContext = this;
         }
@@ -34,97 +34,50 @@ namespace OrderManagementSystem
             }
         }
 
-        private static int nextProductId = 1;
-
         private void AddProduct_Clicked(object sender, EventArgs e)
         {
-            int id = nextProductId; // Użyj kolejnego ID produktu
+            // Pobierz wartości z kontrolek
             string name = ProductNameEntry.Text;
-            decimal price;
-            bool isPriceValid = Decimal.TryParse(ProductPriceEntry.Text, out price);
+            decimal price = decimal.Parse(ProductPriceEntry.Text);
+            // decimal sellingPrice = decimal.Parse(SellingPriceEntry.Text);
+            // string eanNumber = EANNumberEntry.Text;
+            // string serialNumber = SerialNumberEntry.Text;
             string? category = WyswietlKategoriaPicker.SelectedItem?.ToString();
             if (category != null)
             {
                 DisplayProductsByCategory(category);
             }
-
-            int quantity;
-            bool isQuantityValid = Int32.TryParse(ProductQuantity.Text, out quantity);
             string distribution = ProductDistributionPicker.SelectedItem?.ToString() ?? string.Empty;
+            int quantity = int.Parse(ProductQuantity.Text);
             string invoiceNumber = ProductInvoiceNumber.Text;
             DateTime purchaseDate = ProductPurchaseDate.Date;
             string comment = ProductComment.Text;
 
-            string errorMessage = "";
+            // Utwórz nowy produkt
+            var newProduct = new Product(
+                GenerateNewProductId(), // Zakładam, że masz metodę do generowania unikalnych ID
+                name,
+                price,
+               //  sellingPrice,
+                // eanNumber,
+                // serialNumber,
+                category,
+                quantity,
+                distribution,
+                invoiceNumber,
+                purchaseDate,
+                comment
+            );
 
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                errorMessage += "Nazwa produktu jest wymagana.\n";
-            }
+            // Dodaj produkt do listy (zakładam, że masz odpowiednią metodę lub kolekcję)
+            ProductsList.Add(newProduct);
 
-            if (!isPriceValid || price < 0)
-            {
-                errorMessage += "Nieprawidłowa cena. Proszę wprowadzić dodatnią liczbę.\n";
-            }
-
-            if (string.IsNullOrWhiteSpace(category))
-            {
-                errorMessage += "Kategoria jest wymagana.\n";
-            }
-
-            if (!isQuantityValid || quantity < 0)
-            {
-                errorMessage += "Nieprawidłowa ilość. Proszę wprowadzić dodatnią liczbę.\n";
-            }
-
-            if (string.IsNullOrWhiteSpace(distribution))
-            {
-                errorMessage += "Dystrybucja jest wymagana.\n";
-            }
-
-            if (!string.IsNullOrWhiteSpace(errorMessage))
-            {
-                DisplayAlert("Błąd", errorMessage, "OK");
-                return;
-            }
-
-            Product newProduct = new Product(id, name, price, category, quantity, distribution, invoiceNumber, purchaseDate, comment);
-           
-            // Sprawdź, czy produkt o tym samym ID już istnieje w kontekście
-            var existingProduct = _context.Products.Local.FirstOrDefault(p => p.Id == id);
-            if (existingProduct == null)
-            {
-                ProductsList.Add(newProduct);
-
-                // Zapisz nowy produkt w bazie danych
-                _context.Products.Add(newProduct);
-                _context.SaveChanges();
-
-                nextProductId++; // Zwiększ licznik po dodaniu produktu
-            }
-            else
-            {
-                DisplayAlert("Błąd", "Produkt o tym samym ID już istnieje.", "OK");
-            }
-
-            if (category != null && category != "All" && ProductsList.Any(p => p.Category == category))
-            {
-                ifNoProductInCategory_Frame.IsVisible = false;
-                ifNoProductInCategory_Label.IsVisible = false;
-            }
-
-            // Wyczyść pola tekstowe
-            ProductNameEntry.Text = "";
-            ProductPriceEntry.Text = "";
-            KategoriaPicker.SelectedItem = null;
-            ProductQuantity.Text = "";
-            ProductDistributionPicker.SelectedItem = null;
-            ProductInvoiceNumber.Text = "";
-            ProductPurchaseDate.Date = DateTime.Now;
-            ProductComment.Text = "";
-
-            DisplayProducts();
+            // Zapisz produkt w bazie danych
+            _context.Products.Add(newProduct);
+            _context.SaveChanges();
         }
+
+
 
         private void DisplayProducts()
         {
@@ -139,6 +92,12 @@ namespace OrderManagementSystem
             }
         }
 
+        // Przykładowa metoda do generowania unikalnych ID
+        private int GenerateNewProductId()
+        {
+            return ProductsList.Any() ? ProductsList.Max(p => p.Id) + 1 : 1;
+        }
+
         private async void EditButton_Clicked(object sender, EventArgs e)
         {
             // Pobierz wybrany produkt
@@ -149,7 +108,7 @@ namespace OrderManagementSystem
             string name = await DisplayPromptAsync("Zmień nazwę", "Wprowadź nową nazwę", initialValue: selectedProduct.Name);
             decimal price = Convert.ToDecimal(await DisplayPromptAsync("Zmień cenę", "Wprowadź nową cenę", initialValue: selectedProduct.Price.ToString()));
             int quantity = Convert.ToInt32(await DisplayPromptAsync("Zmień ilość", "Wprowadź nową ilość", initialValue: selectedProduct.Quantity.ToString()));
-            
+
             // Pobierz listę dystrybucji z Picker
             var distributionItems = ProductDistributionPicker.ItemsSource.Cast<string>().ToArray();
             string distribution = await DisplayActionSheet("Zmień dystrybucję", "Anuluj", null, distributionItems) ?? string.Empty;
@@ -158,6 +117,9 @@ namespace OrderManagementSystem
             string purchaseDateString = await DisplayPromptAsync("Zmień datę zakupu", "Wprowadź nową datę zakupu (dd/MM/yyyy)", initialValue: selectedProduct.PurchaseDate.ToString("dd/MM/yyyy"));
             DateTime purchaseDate = DateTime.ParseExact(purchaseDateString, "dd/MM/yyyy", null);
             string comment = await DisplayPromptAsync("Zmień komentarz", "Wprowadź nowy komentarz", initialValue: selectedProduct.Comment);
+            // decimal sellingPrice = Convert.ToDecimal(await DisplayPromptAsync("Zmień cenę sprzedaży", "Wprowadź nową cenę sprzedaży", initialValue: selectedProduct.SellingPrice.ToString()));
+            // string eanNumber = await DisplayPromptAsync("Zmień numer EAN", "Wprowadź nowy numer EAN", initialValue: selectedProduct.EANNumber);
+            // string serialNumber = await DisplayPromptAsync("Zmień numer seryjny", "Wprowadź nowy numer seryjny", initialValue: selectedProduct.SerialNumber);
 
             // Pobierz listę kategorii z pliku XAML
             List<string> categories = new List<string>();
@@ -167,7 +129,7 @@ namespace OrderManagementSystem
             }
 
             // Wyświetl okno dialogowe do wyboru nowej kategorii
-            string category = await DisplayActionSheet("Zmień kategorię", "Anuluj", null, categories.ToArray());
+            string category = await DisplayActionSheet("Zmień kategorię", "Anuluj", null, categories.ToArray()) ?? string.Empty;
 
             // Zaktualizuj szczegóły produktu
             selectedProduct.Name = name;
@@ -178,6 +140,9 @@ namespace OrderManagementSystem
             selectedProduct.InvoiceNumber = invoiceNumber;
             selectedProduct.PurchaseDate = purchaseDate;
             selectedProduct.Comment = comment;
+           //  selectedProduct.SellingPrice = sellingPrice;
+            // selectedProduct.EANNumber = eanNumber;
+            // selectedProduct.SerialNumber = serialNumber;
 
             // Zaktualizuj produkt w bazie danych
             _context.Products.Update(selectedProduct);
