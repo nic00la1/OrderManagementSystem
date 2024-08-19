@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using OrderManagementSystem.Dataa;
 
 namespace OrderManagementSystem
 {
@@ -18,6 +20,7 @@ namespace OrderManagementSystem
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddDbContext<DataContext>();
 
             return builder.Build();
         }
