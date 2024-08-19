@@ -8,24 +8,29 @@ namespace OrderManagementSystem
     public partial class MainPage : ContentPage
     {
         private readonly DataContext _context;
-        private List<Product> products = new List<Product>();
         public ObservableCollection<Product> ProductsList { get; set; }
 
         public MainPage(DataContext context)
         {
-            _context = context;
             InitializeComponent();
+            _context = new DataContext();
             ProductsList = new ObservableCollection<Product>();
             BindingContext = this;
         }
 
         protected override async void OnAppearing()
         {
-            var product = await _context.Products.FirstOrDefaultAsync();
+            base.OnAppearing();
+            await LoadProductsFromDatabase();
+        }
 
-            if (product is not null)
+        private async Task LoadProductsFromDatabase()
+        {
+            var productsFromDb = await _context.Products.ToListAsync();
+            ProductsList.Clear();
+            foreach (var product in productsFromDb)
             {
-                productNameLbl.Text = $"Product Name from Database: {product.Name}";
+                ProductsList.Add(product);
             }
         }
 
@@ -37,10 +42,15 @@ namespace OrderManagementSystem
             string name = ProductNameEntry.Text;
             decimal price;
             bool isPriceValid = Decimal.TryParse(ProductPriceEntry.Text, out price);
-            string? category = KategoriaPicker.SelectedItem?.ToString();
+            string? category = WyswietlKategoriaPicker.SelectedItem?.ToString();
+            if (category != null)
+            {
+                DisplayProductsByCategory(category);
+            }
+
             int quantity;
             bool isQuantityValid = Int32.TryParse(ProductQuantity.Text, out quantity);
-            string distribution = ProductDistributionPicker.SelectedItem?.ToString();
+            string distribution = ProductDistributionPicker.SelectedItem?.ToString() ?? string.Empty;
             string invoiceNumber = ProductInvoiceNumber.Text;
             DateTime purchaseDate = ProductPurchaseDate.Date;
             string comment = ProductComment.Text;
@@ -79,11 +89,25 @@ namespace OrderManagementSystem
             }
 
             Product newProduct = new Product(id, name, price, category, quantity, distribution, invoiceNumber, purchaseDate, comment);
-            products.Add(newProduct);
+           
+            // Sprawdź, czy produkt o tym samym ID już istnieje w kontekście
+            var existingProduct = _context.Products.Local.FirstOrDefault(p => p.Id == id);
+            if (existingProduct == null)
+            {
+                ProductsList.Add(newProduct);
 
-            nextProductId++; // Zwiększ licznik po dodaniu produktu
+                // Zapisz nowy produkt w bazie danych
+                _context.Products.Add(newProduct);
+                _context.SaveChanges();
 
-            if (category != null && category != "All" && products.Any(p => p.Category == category))
+                nextProductId++; // Zwiększ licznik po dodaniu produktu
+            }
+            else
+            {
+                DisplayAlert("Błąd", "Produkt o tym samym ID już istnieje.", "OK");
+            }
+
+            if (category != null && category != "All" && ProductsList.Any(p => p.Category == category))
             {
                 ifNoProductInCategory_Frame.IsVisible = false;
                 ifNoProductInCategory_Label.IsVisible = false;
@@ -104,23 +128,15 @@ namespace OrderManagementSystem
 
         private void DisplayProducts()
         {
-            // Utwórz nową listę produktów z zaktualizowanymi ID
-            List<Product> updatedProducts = new List<Product>();
-            for (int i = 0; i < products.Count; i++)
-            {
-                Product product = products[i];
-                updatedProducts.Add(new Product(i + 1, product.Name, product.Price, product.Category, product.Quantity, product.Distribution, product.InvoiceNumber, product.PurchaseDate, product.Comment));
-            }
+            // Pobierz wszystkie produkty z bazy danych
+            var productsFromDb = _context.Products.ToList();
 
-            // Wyczyść ProductsList i dodaj zaktualizowane produkty
+            // Wyczyść ProductsList i dodaj produkty z bazy danych
             ProductsList.Clear();
-            foreach (var product in updatedProducts)
+            foreach (var product in productsFromDb)
             {
                 ProductsList.Add(product);
             }
-
-            // Zamień starą listę produktów na zaktualizowaną
-            products = updatedProducts;
         }
 
         private async void EditButton_Clicked(object sender, EventArgs e)
@@ -133,7 +149,11 @@ namespace OrderManagementSystem
             string name = await DisplayPromptAsync("Zmień nazwę", "Wprowadź nową nazwę", initialValue: selectedProduct.Name);
             decimal price = Convert.ToDecimal(await DisplayPromptAsync("Zmień cenę", "Wprowadź nową cenę", initialValue: selectedProduct.Price.ToString()));
             int quantity = Convert.ToInt32(await DisplayPromptAsync("Zmień ilość", "Wprowadź nową ilość", initialValue: selectedProduct.Quantity.ToString()));
-            string distribution = await DisplayActionSheet("Zmień dystrybucję", "Anuluj", null, "Dystrybucja 1", "Dystrybucja 2", "Dystrybucja 3");
+            
+            // Pobierz listę dystrybucji z Picker
+            var distributionItems = ProductDistributionPicker.ItemsSource.Cast<string>().ToArray();
+            string distribution = await DisplayActionSheet("Zmień dystrybucję", "Anuluj", null, distributionItems) ?? string.Empty;
+
             string invoiceNumber = await DisplayPromptAsync("Zmień nr faktury zakupowej", "Wprowadź nowy nr faktury zakupowej", initialValue: selectedProduct.InvoiceNumber);
             string purchaseDateString = await DisplayPromptAsync("Zmień datę zakupu", "Wprowadź nową datę zakupu (dd/MM/yyyy)", initialValue: selectedProduct.PurchaseDate.ToString("dd/MM/yyyy"));
             DateTime purchaseDate = DateTime.ParseExact(purchaseDateString, "dd/MM/yyyy", null);
@@ -159,12 +179,17 @@ namespace OrderManagementSystem
             selectedProduct.PurchaseDate = purchaseDate;
             selectedProduct.Comment = comment;
 
-            // Utwórz nowy obiekt produktu
-            Product newProduct = new Product(id, name, price, category, quantity, distribution, invoiceNumber, purchaseDate, comment);
+            // Zaktualizuj produkt w bazie danych
+            _context.Products.Update(selectedProduct);
+            await _context.SaveChangesAsync(); // Użyj asynchronicznej wersji SaveChanges
 
-            // Zamień edytowany produkt na nowy w liście produktów
-            int index = products.IndexOf(selectedProduct);
-            products[index] = newProduct;
+            // Zaktualizuj produkt w ProductsList
+            var productInList = ProductsList.FirstOrDefault(p => p.Id == selectedProduct.Id);
+            if (productInList != null)
+            {
+                int index = ProductsList.IndexOf(productInList);
+                ProductsList[index] = selectedProduct;
+            }
 
             DisplayProducts();
         }
@@ -175,7 +200,11 @@ namespace OrderManagementSystem
             Product selectedProduct = (Product)((Button)sender).BindingContext;
 
             // Usuń wybrany produkt z listy produktów
-            products.Remove(selectedProduct);
+            ProductsList.Remove(selectedProduct);
+
+            // Usuń produkt z bazy danych
+            _context.Products.Remove(selectedProduct);
+            _context.SaveChanges();
 
             DisplayProducts();
         }
@@ -183,7 +212,7 @@ namespace OrderManagementSystem
         private void DisplayProductsByCategory(string category)
         {
             // Utwórz nową listę produktów filtrowaną według kategorii
-            List<Product> filteredProducts = products.Where(p => p.Category == category).ToList();
+            List<Product> filteredProducts = ProductsList.Where(p => p.Category == category).ToList();
 
             // Wyczyść ProductsList
             ProductsList.Clear();

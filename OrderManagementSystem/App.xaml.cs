@@ -16,29 +16,8 @@ namespace OrderManagementSystem
 
             _context = context;
             context.Database.Migrate();
-            SeedDatabase();
 
             MainPage = new AppShell();
-        }
-
-        private void SeedDatabase()
-        {
-            if(_context.Products.Any())
-                return; // DB has been seeded
-
-            Product product = new Product(
-                id: 1,
-                name: "Sample Product",
-                price: 19.99m,
-                category: "Electronics",
-                quantity: 100,
-                distribution: "Online",
-                invoiceNumber: "INV123456",
-                purchaseDate: DateTime.Now,
-                comment: "This is a sample product."
-            );
-            _context.Products.Add(product);
-            _context.SaveChanges();
         }
     }
 }
